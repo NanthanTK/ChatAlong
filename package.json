@@ -1,0 +1,19 @@
+{
+  "name": "chatalong",
+  "version": "1.0.0",
+  "description": "A Chat Site",
+  "main": "server/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NanthanTK/ChatAlong.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NanthanTK/ChatAlong/issues"
+  },
+  "homepage": "https://github.com/NanthanTK/ChatAlong#readme"
+}
