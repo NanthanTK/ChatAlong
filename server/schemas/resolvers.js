@@ -19,7 +19,7 @@ const resolvers = {
       },
 
       posts: async () => {
-        return Post.find();
+        return Post.find().populate('postAuthor').populate('responses');
       },
 
       post: async (parent, { postId }) => {
@@ -48,21 +48,26 @@ const resolvers = {
       },
 
       addPost: async (parent, {heading, message, topic}, context) => {
+        console.log("context.user", context.user._id )
         if (context.user) {
+          
           const post = await Post.create({
             heading, message, topic,
-            postAuthor: context.user.username,
+            postAuthor: context.user._id,
           });  
           return post;
         }
         throw new AuthenticationError('You need to be logged in!');
       },
 
+
       updatePost: async (parent, {postId, message}, context) => {
+        console.log("context.user._id", context.user._id)
         if (context.user){
-          const post = Post.findOne({_id:postId});
-          if (post && post.postAuthor === context.user.username) {
-            const updatedPost = Post. findOneAndUpdate(
+          const post = await Post.findOne({_id:postId});
+          console.log (post.postAuthor._id)
+          if (post && post.postAuthor._id.toString() === context.user._id.toString()) {
+            const updatedPost = await Post. findOneAndUpdate(
             {_id:postId},
             {message},
             {new: true}
@@ -75,8 +80,8 @@ const resolvers = {
 
       deletePost: async (parent, {postId}, context) => {
         if (context.user){
-          const post = Post.findOne({_id:postId});
-          if (post && post.postAuthor === context.user.username) {
+          const post = await Post.findOne({_id:postId});
+          if (post && post.postAuthor._id.toString() === context.user._id.toString()) {
             const deletedPost = await Post. findOneAndDelete({_id:postId});
             return deletedPost;
           }
@@ -86,18 +91,21 @@ const resolvers = {
 
       addResponse: async (parent, {postId, message}, context) => {
         if (context.user) {
-          return Post.findOneAndUpdate(
+          const response = await Response.create({ message, responseAuthor:context.user._id});
+          await Post.findOneAndUpdate(
             { _id: postId },
             {
-              $addToSet: {
-                Responses: { message, responseAuthor: context.user.username },
+              $push: {
+                responses: response
               },
             },
             {
               new: true,
               runValidators: true,
             }
+          
           );
+          return response;
         }
         throw new AuthenticationError('You need to be logged in!');
       },
@@ -107,10 +115,10 @@ const resolvers = {
 
       deleteResponse: async (parent, {responseId}, context) => {
         if (context.user){
-          const response = Response.findOne({_id:responseId});
-          if (response && response.responseAuthor === context.user.username) {
-            const deleteedResponse = await Response. findOneAndDelete({_id:responseId});
-            return deleteedResponse;            
+          const response = await Response.findOne({_id:responseId});
+          if (response && response.responseAuthor._id.toString() === context.user._id.toString()) {
+            const deletedResponse = await Response. findOneAndDelete({_id:responseId});
+            return deletedResponse;            
           }
         }
         throw new AuthenticationError('You can delete only your responses while logged in!');
