@@ -22,8 +22,13 @@ const resolvers = {
         return Post.find().populate('postAuthor').populate('responses');
       },
 
+      postsByTopic: async(parent, { topic }) => { 
+        const posts = await Post.find({topic}).populate('postAuthor').populate('responses');  
+        return posts;
+      },
+
       post: async (parent, { postId }) => {
-        return User.findOne({ _id:postId });           
+        return Post.findOne({ _id:postId }).populate('postAuthor').populate('responses');           
       },
 
     },
