@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom'; // Update the import statement here
-import './index.css';
+import './Style/index.css';
 import App from './App';
 
 
