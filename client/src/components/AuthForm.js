@@ -138,6 +138,7 @@ const navigate = useNavigate();
               name="username"
               value={formData.username}
               onChange={handleInputChange}
+              required
             />
             <input
               type="email"
@@ -145,6 +146,7 @@ const navigate = useNavigate();
               name="email"
               value={formData.email}
               onChange={handleInputChange}
+              required
             />
             <input
               type="password"
@@ -152,6 +154,7 @@ const navigate = useNavigate();
               name="password"
               value={formData.password}
               onChange={handleInputChange}
+              required
             />
             <button type="submit">Sign Up</button>
           </form>
@@ -166,6 +169,7 @@ const navigate = useNavigate();
               name="email"
               value={formData.email}
               onChange={handleInputChange}
+              required
             />
             <input
               type="password"
@@ -173,6 +177,7 @@ const navigate = useNavigate();
               name="password"
               value={formData.password}
               onChange={handleInputChange}
+              required
             />
             <button type="submit">Sign In</button>
           </form>
