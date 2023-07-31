@@ -12,6 +12,10 @@ export default function Header() {
     setSidebarVisible(!sidebarVisible);
   };
 
+  const handleCloseSidebar = () => {
+    setSidebarVisible(false);
+  };
+
   return (
     <>
       <Menu pointing secondary>
@@ -27,12 +31,12 @@ export default function Header() {
         <Menu.Menu position='right'>
           <Menu.Item>
             <Link to='/login&signup'>
-            <Button color='orange'>Login</Button>
+              <Button color='orange'>Login</Button>
             </Link>
           </Menu.Item>
         </Menu.Menu>
       </Menu>
-      <MySidebar  visible={sidebarVisible} />
+      <MySidebar visible={sidebarVisible} onHide={handleCloseSidebar} />
     </>
   );
 }
