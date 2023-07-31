@@ -1,0 +1,15 @@
+.custom-icon:hover {
+    cursor: pointer;
+  }
+
+.AddPostCard.custom-style{
+    width: 100%;
+    height: 100%;
+}
+.AddPostCard .input-field {
+    width: 100%;
+  }
+
+.AddPostContainer{
+    margin-bottom: 10%;
+}
