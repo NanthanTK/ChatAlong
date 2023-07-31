@@ -1,6 +1,8 @@
 // LoginForm.js
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '../utils/mutations';
 
 const LoginForm = ({ onLogin }) => {
   const [formData, setFormData] = useState({
@@ -9,18 +11,27 @@ const LoginForm = ({ onLogin }) => {
   });
 
   const history = useHistory();
+  const [login, { error, data }] = useMutation(LOGIN_USER);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Handle login form submission here
-    // For simplicity, we'll just call the onLogin function with the formData
-    onLogin(formData);
-    history.push('/');
+  const handleSubmit = async (event) => {
+    try {      
+      const { data } = await login({
+        variables: { ...formData },
+      });
+
+      console.log('New user registered:', data);
+
+      Auth.login(data.login.token);
+      history.push('/');
+    } catch (logginEerror) {
+      // Handle any errors that occurred during the mutation
+      console.error(loginError.message);
+    }
   };
 
   return (
