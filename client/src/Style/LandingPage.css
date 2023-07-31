@@ -1,0 +1,12 @@
+.HeaderContainer{
+    margin-top: 10%;
+    margin-left: 12%;
+    text-align: center;
+    width: 70%;
+}
+
+.HeaderContainer span{
+   font-size: 26px;
+   background-color: #FFDC7B;
+
+}
