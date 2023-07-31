@@ -1,6 +1,10 @@
 // RegisterForm.js
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { ADD_USER } from '../utils/mutations';
+
+import Auth from '../utils/auth';
 
 const RegisterForm = ({ onRegister }) => {
   const [formData, setFormData] = useState({
@@ -10,19 +14,31 @@ const RegisterForm = ({ onRegister }) => {
   });
 
   const history = useHistory();
+  const [addUser, { loading, error }] = useMutation(ADD_USER);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle registration form submission here
-    // For simplicity, we'll just call the onRegister function with the formData
-    onRegister(formData);
-    history.push('/');
+
+    try {      
+      const { data } = await addUser({
+        variables: { ...formData },
+      });
+
+      console.log('New user registered:', data);
+
+      Auth.login(data.addUser.token);
+      history.push('/');
+    } catch (registrationError) {
+      // Handle any errors that occurred during the mutation
+      console.error(registrationError.message);
+    }
   };
+
 
   return (
     <form onSubmit={handleSubmit}>

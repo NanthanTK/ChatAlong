@@ -2,68 +2,96 @@
 
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useQuery, useMutation} from '@apollo/client';
+import { QUERY_POST_BY_ID } from '../utils/queries';
+import {UPDATE_POST, DELETE_POST, ADD_RESPONSE} from '../utils/mutations';
 
 const PostContent = () => {
-  const { topic, id } = useParams();
+  const { id } = useParams();  
+  const { loading, data } = useQuery(QUERY_POST_BY_ID, {      
+    variables: { postId: id },
+  });     
 
-  // To be replaced with query to generate this info
-  const postContent = [
-    { id: 1, content: 'Content for Heading 1', reaction: null },
-    { id: 2, content: 'Content for Heading 2', reaction: null },
-    { id: 3, content: 'Content for Heading 3', reaction: null },
-  ];
-
-  const selectedContent = postContent.find((item) => item.id.toString() === id);
-
-  // Rection Update form initial state to false ie hidden
-  const [showReactionForm, setShowReactionForm] = useState(false);
+  const [showResponseForm, setShowResponseForm] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
-
-  //Initial Reaction form state
   const [userName, setUserName] = useState('');
-  const [reaction, setReaction] = useState('');
+  const [message, setMessage] = useState('');
+  const [updatedContent, setUpdatedContent] = useState('');
 
-  // Initial Update Post form state
-  const [updatedContent, setUpdatedContent] = useState(selectedContent?.content);
+  const post = data?.post;
 
-  const handleReactionClick = () => {
-    setShowReactionForm(true);
+  const [addResponse] = useMutation(ADD_RESPONSE);
+  const [updatePost] = useMutation(UPDATE_POST);
+
+
+  const handleResponseClick = () => {
+    setShowResponseForm(true);
     setShowUpdateForm(false);
   };
 
   const handleUpdateClick = () => {
     setShowUpdateForm(true);
-    setShowReactionForm(false);
+    setShowResponseForm(false);
   };
 
-  const handleReactionFormSubmit = (event) => {
+  const handleResponseFormSubmit = async (event) => {
     event.preventDefault();
-    // Handle reaction form submission here
-    //add mutation to update reaction data
-    selectedContent.reaction = { userName, reaction };
-    setShowReactionForm(false);
+    try {
+      if (userName.trim() === '' || message.trim() === '') {
+        alert('Please fill all the fields.');
+        return;
+      }
+
+      await addResponse({
+        variables: {
+          postId: id,
+          message: `${userName}: ${message}`,
+        },
+      });
+
+      setShowResponseForm(false);
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
-  const handleUpdateFormSubmit = (event) => {
+  const handleUpdateFormSubmit = async (event) => {
     event.preventDefault();
-    // Handle update form submission here
-    //add mutation to update post data
-    selectedContent.content = updatedContent;
-    setShowUpdateForm(false);
+    try {
+      if (updatedContent.trim() === '') {
+        alert('Please enter updated content.');
+        return;
+      }
+
+      await updatePost({
+        variables: {
+          postId: id,
+          message: updatedContent,
+        },
+      });
+
+      setShowUpdateForm(false);
+    } catch (error) {
+      console.error(error.message);
+    }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
-      <h3>Post Content for {topic}</h3>
-      <p>{selectedContent?.content}</p>
-      {!showReactionForm && !showUpdateForm && (
+      <h3>Post Content for {post?.heading}</h3>
+      <p>{post?.message}</p>
+      {!showResponseForm && !showUpdateForm && (
         <>
-          <button onClick={handleReactionClick}>Reaction</button>
+          <button onClick={handleResponseClick}>Response</button>
           <button onClick={handleUpdateClick}>Update Post</button>
         </>
       )}
-      {showReactionForm && !showUpdateForm && (
-        <form onSubmit={handleReactionFormSubmit}>
+      {showResponseForm && !showUpdateForm && (
+        <form onSubmit={handleResponseFormSubmit}>
           <div>
             <label htmlFor="userName">User Name:</label>
             <input
@@ -76,13 +104,13 @@ const PostContent = () => {
             />
           </div>
           <div>
-            <label htmlFor="reaction">Reaction:</label>
+            <label htmlFor="message">Message:</label>
             <input
               type="text"
-              id="reaction"
-              name="reaction"
-              value={reaction}
-              onChange={(e) => setReaction(e.target.value)}
+              id="message"
+              name="message"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
               required
             />
           </div>
@@ -91,7 +119,7 @@ const PostContent = () => {
           </div>
         </form>
       )}
-      {!showReactionForm && showUpdateForm && (
+      {!showResponseForm && showUpdateForm && (
         <form onSubmit={handleUpdateFormSubmit}>
           <div>
             <label htmlFor="updatedContent">Updated Content:</label>

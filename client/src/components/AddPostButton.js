@@ -1,43 +1,91 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { ADD_POST } from '../utils/mutations';
 
-const AddPostButton = ({ setPosts, topic }) => {
+const AddPostButton = ({ topic }) => {
   const [showForm, setShowForm] = useState(false);
+  const [formData, setFormData] = useState({
+    username: '',
+    heading: '',
+    message: '',
+  });
   const navigate = useNavigate();
+  const [addPost] = useMutation(ADD_POST);
 
   const handleAddPostClick = () => {
     setShowForm(true);
   };
 
-  const handleFormSubmit = (formData) => {
-    if (
-      formData.username.trim() === '' ||
-      formData.title.trim() === '' ||
-      formData.description.trim() === ''
-    ) {
-      alert('Please fill all the fields.'); // Add validation
-      return;
-    }
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+  };
 
-    setPosts((prevPosts) => [
-      ...prevPosts,
-      {
-        id: prevPosts.length + 1,
-        topic,
-        username: formData.username,
-        title: formData.title,
-        description: formData.description,
-        reaction: null,
-      },
-    ]);
-    navigate(`/post/${topic}`);
-    setShowForm(false)
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      if (
+        formData.username.trim() === '' ||
+        formData.heading.trim() === '' ||
+        formData.message.trim() === ''
+      ) {
+        alert('Please fill all the fields.');
+        return;
+      }
+      await addPost({
+        variables: {
+          heading: formData.heading,
+          message: formData.message,
+          topic,
+        },
+      });
+      setShowForm(false);
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   return (
     <>
       {showForm ? (
-        <AddPostForm topic={topic} onSubmit={handleFormSubmit} />
+        <form onSubmit={handleFormSubmit}>
+          <div>
+            <label htmlFor="username">Username:</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="heading">Post Heading:</label>
+            <input
+              type="text"
+              id="heading"
+              name="heading"
+              value={formData.heading}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="message">Description:</label>
+            <textarea
+              id="message"
+              name="message"
+              value={formData.message}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div>
+            <button type="submit">Add Post</button>
+          </div>
+        </form>
       ) : (
         <div>
           <label htmlFor="topic">Topic:</label>
@@ -53,64 +101,6 @@ const AddPostButton = ({ setPosts, topic }) => {
         </div>
       )}
     </>
-  );
-};
-
-const AddPostForm = ({ topic, onSubmit }) => {
-  const [formData, setFormData] = useState({
-    username: '',
-    title: '',
-    description: '',
-  });
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
-  };
-
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    onSubmit(formData);
-  };
-
-  return (
-    <form onSubmit={handleFormSubmit}>
-      <div>
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={formData.username}
-          onChange={handleInputChange}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="title">Post Heading:</label>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          value={formData.title}
-          onChange={handleInputChange}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="description">Description:</label>
-        <textarea
-          id="description"
-          name="description"
-          value={formData.description}
-          onChange={handleInputChange}
-          required
-        />
-      </div>
-      <div>
-        <button type="submit">Add Post</button>
-      </div>
-    </form>
   );
 };
 
