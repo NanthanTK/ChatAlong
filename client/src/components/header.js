@@ -1,13 +1,23 @@
-import React from "react";
-import {Link} from 'react-router-dom'
+import React, { Component } from 'react';
+import { Menu } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import Logo from '../Images/Chat_Along_logo.jpg';
+import '../Style/header.css';
 
-const Header = ()=> {
+export default class Header extends Component {
+  render() {
     return (
-        <>
-        <h1>I am a header</h1>
-        <h2 > <Link to = '/'>Logo</Link></h2>
-        </>
-    )
-}
+      <Menu pointing secondary>
+        <Menu.Item>
+          <Link to="/">
+            <img class="Img_logo" alt="logo" src={Logo} />
+          </Link>
+        </Menu.Item>
 
-export default Header;
+        <Menu.Menu position='right'>
+          <Menu.Item name='logout' />
+        </Menu.Menu>
+      </Menu>
+    );
+  }
+}
