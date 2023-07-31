@@ -2,7 +2,9 @@ import React from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import AddPostButton from './AddPostButton';
+import { Segment } from 'semantic-ui-react';
 import { QUERY_POST_BY_TOPIC } from '../utils/queries';
+import '../Style/Post.css';
 
 const Post = ({ setPosts }) => {
   const { topic } = useParams();
@@ -20,14 +22,16 @@ const Post = ({ setPosts }) => {
   const posts = data.postsByTopic;
 
   return (
-    <>
-      <h1>Post Component - {topic}</h1>
+    <div className="PostContainer">
+      <h1>{topic}</h1>
       {posts.length > 0 ? (
         posts.map((post) => (
           <div key={post._id}>
-            <h3>
-              <Link to={`/post/${topic}/${post._id}`}>{post.heading}</Link>
-            </h3>
+            <Segment className='PostSegment'>
+              <Link to={`/post/${topic}/${post._id}`}>
+                {post.heading}
+              </Link>
+            </Segment>
           </div>
         ))
       ) : (
@@ -35,7 +39,7 @@ const Post = ({ setPosts }) => {
       )}
       <AddPostButton setPosts={setPosts} topic={topic} />
       <Outlet />
-    </>
+    </div>
   );
 };
 
