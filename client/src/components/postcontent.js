@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import '../Style/PostContent.css';
+import { Segment, Button, Comment, Form, Header,Input } from 'semantic-ui-react'
 
 const PostContent = () => {
   const { topic, id } = useParams();
@@ -54,14 +56,104 @@ const PostContent = () => {
 
   return (
     <>
-      <h3>Post Content for {topic}</h3>
-      <p>{selectedContent?.content}</p>
-      {!showReactionForm && !showUpdateForm && (
+   
+    <div className='PostContainer'>
+      <h1 className='PostTitle'>Title</h1>
+      <p className="PostUsername">By:Username</p>
+      <h2>{selectedContent?.content}</h2>
+      </div>
+
+  <Comment.Group minimal>
+    <Header as='h3' dividing>
+      Comments
+    </Header>
+
+    <Comment>
+      <Comment.Avatar as='a' src='/images/avatar/small/matt.jpg' />
+      <Comment.Content>
+        <Comment.Author as='a'>Matt</Comment.Author>
+        <Comment.Metadata>
+          <span>Today at 5:42PM</span>
+        </Comment.Metadata>
+        <Comment.Text>How artistic!</Comment.Text>
+        <Comment.Actions>
+          <a>Reply</a>
+        </Comment.Actions>
+      </Comment.Content>
+    </Comment>
+
+    <Comment>
+      <Comment.Avatar as='a' src='/images/avatar/small/elliot.jpg' />
+      <Comment.Content>
+        <Comment.Author as='a'>Elliot Fu</Comment.Author>
+        <Comment.Metadata>
+          <span>Yesterday at 12:30AM</span>
+        </Comment.Metadata>
+        <Comment.Text>
+          <p>This has been very useful for my research. Thanks as well!</p>
+        </Comment.Text>
+        <Comment.Actions>
+          <a>Reply</a>
+        </Comment.Actions>
+      </Comment.Content>
+
+      <Comment.Group>
+        <Comment>
+          <Comment.Avatar as='a' src='/images/avatar/small/jenny.jpg' />
+          <Comment.Content>
+            <Comment.Author as='a'>Jenny Hess</Comment.Author>
+            <Comment.Metadata>
+              <span>Just now</span>
+            </Comment.Metadata>
+            <Comment.Text>Elliot you are always so right :)</Comment.Text>
+            <Comment.Actions>
+              <a>Reply</a>
+            </Comment.Actions>
+          </Comment.Content>
+        </Comment>
+      </Comment.Group>
+    </Comment>
+
+    <Comment>
+      <Comment.Avatar as='a' src='/images/avatar/small/joe.jpg' />
+      <Comment.Content>
+        <Comment.Author as='a'>Joe Henderson</Comment.Author>
+        <Comment.Metadata>
+          <span>5 days ago</span>
+        </Comment.Metadata>
+        <Comment.Text>Dude, this is awesome. Thanks so much</Comment.Text>
+        <Comment.Actions>
+          <a>Reply</a>
+        </Comment.Actions>
+      </Comment.Content>
+    </Comment>
+<div className='CommentContainer'>
+    <Input placeholder='Comment'
+                  type="text"
+                  id="reaction"
+                  name="reaction"
+                  value={reaction}
+                  onChange={(e) => setReaction(e.target.value)}
+                  required/>
+    <Input placeholder='Username'
+                  type="text"
+                  id="userName"
+                  name="userName"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  required/>
+      <Button content='Add Reply' labelPosition='left' icon='edit' primary />
+      </div>
+  </Comment.Group>
+
+
+      {/* {!showReactionForm && !showUpdateForm && (
         <>
           <button onClick={handleReactionClick}>Reaction</button>
           <button onClick={handleUpdateClick}>Update Post</button>
         </>
       )}
+     
       {showReactionForm && !showUpdateForm && (
         <form onSubmit={handleReactionFormSubmit}>
           <div>
@@ -107,8 +199,8 @@ const PostContent = () => {
             <button type="submit">Update Post</button>
           </div>
         </form>
-      )}
-    </>
+      )}*/}
+    </> 
   );
 };
 

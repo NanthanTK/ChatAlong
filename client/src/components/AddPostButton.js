@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../Style/AddPostButton.css';
+import { Card, Form, Icon } from 'semantic-ui-react'
 
 const AddPostButton = ({ setPosts, topic }) => {
   const [showForm, setShowForm] = useState(false);
@@ -39,18 +41,8 @@ const AddPostButton = ({ setPosts, topic }) => {
       {showForm ? (
         <AddPostForm topic={topic} onSubmit={handleFormSubmit} />
       ) : (
-        <div>
-          <label htmlFor="topic">Topic:</label>
-          <input
-            type="text"
-            id="topic"
-            value={topic}
-            onChange={(e) => {
-              navigate(`/post/${e.target.value}`);
-            }}
-          />
-          <button onClick={handleAddPostClick}>Add a Post</button>
-        </div>
+            < Icon onClick={handleAddPostClick} name='plus circle' size='big' color='orange' className='custom-icon' ></Icon>
+       
       )}
     </>
   );
@@ -74,44 +66,51 @@ const AddPostForm = ({ topic, onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleFormSubmit}>
-      <div>
-        <label htmlFor="username">Username:</label>
-        <input
+    <div className="AddPostContainer">
+      <Card className='AddPostCard custom-style'>
+    <Card.Content >
+      <Card.Header>Post to {topic}.</Card.Header>
+    </Card.Content>   
+
+    <Card.Content>
+          
+    <Form onSubmit={handleFormSubmit}>
+    <Form.Input  fluid label='Title:' placeholder='Title'
+    className="input-field" 
+              type="text"
+              id="Title"
+              name="Title"
+              value={formData.username}
+              onChange={handleInputChange}
+              required/>
+        <Form.Input fluid label='Username:' placeholder='Username' 
+        className="input-field" 
           type="text"
           id="username"
           name="username"
           value={formData.username}
           onChange={handleInputChange}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="title">Post Heading:</label>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          value={formData.title}
-          onChange={handleInputChange}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="description">Description:</label>
-        <textarea
+          required/>   
+          <Form.TextArea fluid label='Description:' placeholder='Description' 
+          className="input-field" 
           id="description"
+
           name="description"
           value={formData.description}
           onChange={handleInputChange}
-          required
-        />
-      </div>
-      <div>
-        <button type="submit">Add Post</button>
-      </div>
-    </form>
+          required/>   
+
+    <Form.Button color='orange'>Submit</Form.Button>
+    </Form>
+    </Card.Content>
+  </Card>
+  </div>
   );
 };
 
 export default AddPostButton;
+
+
+
+
+
