@@ -6,13 +6,16 @@ import {
   ApolloProvider,
   createHttpLink,
 } from '@apollo/client';
+
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/header';
 import Sidebar from './components/sidebar';
 import PostContent from './components/postcontent';
-import Post from './components/post'
-import Landingpage from './components/landingpage'
+import Post from './components/post';
+import Landingpage from './components/landingpage';
+import AuthForm from './components/AuthForm';
+import './Style/index.css';
 
 
 // Construct our main GraphQL API endpoint
@@ -45,12 +48,14 @@ function App() {
     <ApolloProvider client={client}>
     <Router>
       <>
+      <div className="background"></div>
         <Header />
         <div style={{ display: 'flex' }}>
           <Sidebar />
           <div style={{ flex: 1, marginLeft: '20px' }}>
             <Routes>
               <Route excat path="/" element={<Landingpage /> } />
+              <Route path="/login&signup" element={<AuthForm /> } />
               <Route path="/post/:topic" element={<Post posts={posts} setPosts={setPosts} />} />
               <Route path="/post/:topic/:id" element={<PostContent />} />
             </Routes>
