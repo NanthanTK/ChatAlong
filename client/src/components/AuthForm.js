@@ -63,7 +63,7 @@
 // export default AuthForm;
 
 import React, { useState } from "react";
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER, ADD_USER } from '../utils/mutations';
 import "../Style/AuthForm.css";
@@ -77,7 +77,8 @@ const AuthForm = () => {
     password: '',
   });
 
-  const history = useHistory();
+//   const history = useHistory();
+const navigate = useNavigate();
   const [login, { error: loginError, data: loginData }] = useMutation(LOGIN_USER);
   const [addUser, { error: registrationError, data: registrationData }] = useMutation(ADD_USER);
 
@@ -107,7 +108,7 @@ const AuthForm = () => {
         console.log('New user registered:', data);
         Auth.login(data.addUser.token); // Log in the new user
         // Redirect to home page after registration
-        history.push('/');
+        navigate('/');
       } else {
         // Handle login form submit
         const { data } = await login({
@@ -117,7 +118,7 @@ const AuthForm = () => {
         console.log('User logged in:', data);
         Auth.login(data.login.token); // Log in the user
         // Redirect to home page after login
-        history.push('/');
+        navigate('/');
       }
     } catch (error) {
       console.error(error.message);
