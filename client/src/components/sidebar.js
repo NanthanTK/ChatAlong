@@ -32,7 +32,7 @@ import { Link } from 'react-router-dom';
 import { Grid, Icon, Menu, Sidebar, Segment } from 'semantic-ui-react';
 import '../Style/Sidebar.css';
 
-const MySidebar = ({ visible }) => {
+const MySidebar = ({ visible, onHide }) => {
   return (
     <Grid columns={1}>
       <Grid.Column>
@@ -41,13 +41,14 @@ const MySidebar = ({ visible }) => {
           animation='overlay'
           icon='labeled'
           inverted
-          onHide={() => {}} // Empty onHide, as we are handling visibility from the Header component
+          onHide={onHide} // Pass the onHide function from the parent component to handle visibility
           vertical
           visible={visible}
           width='thin'
           dimmed
           style={{ background: 'white' }} // Set background color to white
         >
+  
           <Segment vertical>
             <Link to='/'>
               <Menu.Item as='a'>
@@ -56,7 +57,7 @@ const MySidebar = ({ visible }) => {
               </Menu.Item>
             </Link>
           </Segment>
-
+          
           <Segment vertical>
             <Link to='/post/Language'>
               <Menu.Item as='a'>
