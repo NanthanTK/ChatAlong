@@ -163,9 +163,10 @@ const PostContent = () => {
 
   const postContent = data?.post;
   console.log ("postContent",postContent);
-
-  const addResponse = useMutation(ADD_RESPONSE);
-  const updatePost = useMutation(UPDATE_POST);
+  const responses = postContent.responses;
+  console.log ("response", responses);
+  const [addResponse]= useMutation(ADD_RESPONSE);
+  const [updatePost] = useMutation(UPDATE_POST);
 
   const handleResponseClick = () => {
     setShowResponseForm(true);
@@ -225,12 +226,19 @@ const PostContent = () => {
     return <div>Loading...</div>;
   }
 
+
   return (
     <>
       <div className="PostContainer">
         <h1 className="PostTitle">{postContent?.heading}</h1>
         <p className="PostUsername">By: {postContent?.username}</p>
         <h2>{postContent?.message}</h2>
+        {/* <div>
+          {responses.length>0 ?( 
+            responses.map((response)=> (
+            <h3>{response.message} </h3>
+          ))):<h3>No replies yet</h3>}
+        </div> */}
 
         {/* Conditionally render the "Update Post" button */}
         {!showUpdateForm && (

@@ -30,6 +30,11 @@ const resolvers = {
       post: async (parent, { postId }) => {
         return Post.findOne({ _id:postId }).populate('postAuthor').populate('responses');           
       },
+      response: async (parent, { responseId }) => {
+        return Response.findOne({ _id:responseId }).populate('responseAuthor');           
+      },
+
+
 
     },
     Mutation: {
@@ -55,7 +60,7 @@ const resolvers = {
       addPost: async (parent, {heading, message, topic}, context) => {
         console.log("context.user", context.user._id )
         if (context.user) {
-          
+          console.log ("context.user", context.user._id);
           const post = await Post.create({
             heading, message, topic,
             postAuthor: context.user._id,

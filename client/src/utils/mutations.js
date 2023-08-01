@@ -31,7 +31,7 @@ mutation AddPost($heading: String!, $message: String!, $topic: String!) {
       message
       _id
       postAuthor {
-        username
+        _id        
       }
       topic
     }
@@ -39,12 +39,11 @@ mutation AddPost($heading: String!, $message: String!, $topic: String!) {
 `;
 export const UPDATE_POST = gql`
 mutation UpdatePost($postId: ID!, $message: String!) {
-    updatePost(postId: $postId, message: $message) {
-      postId
-      heading
-      message
-    }
+  updatePost(postId: $postId, message: $message) {
+    _id
+    message
   }
+}
 `;
 export const DELETE_POST = gql`
 mutation DeletePost($postId: ID!) {
@@ -65,8 +64,7 @@ mutation AddResponse($postId: ID!, $message: String!) {
       message
       responseAuthor {
         _id
-        username
-      }
+           }
     }
   }
 `;
