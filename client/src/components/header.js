@@ -22,6 +22,10 @@ const Header = () => {
     setSidebarVisible(!sidebarVisible);
   };
 
+  const handleCloseSidebar = () => {
+    setSidebarVisible(false);
+  };
+
   const handleLogout = () => {
     Auth.logout();
     setIsUserLoggedIn(Auth.loggedIn());
@@ -58,7 +62,7 @@ const Header = () => {
           </Menu.Item>
         </Menu.Menu>
       </Menu>
-      <MySidebar visible={sidebarVisible} />
+      <MySidebar visible={sidebarVisible} onHide={handleCloseSidebar} />
     </>
   );
 };
