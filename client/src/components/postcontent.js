@@ -141,13 +141,12 @@
 // };
 
 // export default PostContent;
-
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_POST_BY_ID } from '../utils/queries';
 import { UPDATE_POST, ADD_RESPONSE } from '../utils/mutations';
-import { Segment, Button, Comment, Form, Header, Input } from 'semantic-ui-react';
+import { Card, Button, Comment, Form, Header, Input } from 'semantic-ui-react';
 import '../Style/PostContent.css';
 
 const PostContent = () => {
@@ -229,6 +228,37 @@ const PostContent = () => {
         <h1 className="PostTitle">{postContent?.heading}</h1>
         <p className="PostUsername">By: {postContent?.username}</p>
         <h2>{postContent?.message}</h2>
+
+        {/* Conditionally render the "Update Post" button */}
+        {!showUpdateForm && (
+          <button onClick={handleUpdateClick}>Update Post</button>
+        )}
+
+        {/* Conditionally render the update form */}
+        {!showResponseForm && showUpdateForm && (
+          <Card>
+          <form onSubmit={handleUpdateFormSubmit}>
+            <div>
+            <Card.Content>
+              <Card.Header>Updated Content:</Card.Header>
+            </Card.Content>
+            <Card.Content>
+              <label htmlFor="updatedContent"></label>
+              <textarea
+                id="updatedContent"
+                name="updatedContent"
+                value={updatedContent}
+                onChange={(e) => setUpdatedContent(e.target.value)}
+                required
+              />
+              </Card.Content>
+            </div>
+            <div>
+              <button type="submit">Submit</button>
+            </div>
+          </form>
+          </Card>
+        )}
       </div>
 
       <Comment.Group minimal>
@@ -251,7 +281,7 @@ const PostContent = () => {
                 required
               />
             </Form.Field>
-            <Form.Field>
+            {/* <Form.Field>
               <Input
                 placeholder="Username"
                 type="text"
@@ -261,7 +291,7 @@ const PostContent = () => {
                 onChange={(e) => setUserName(e.target.value)}
                 required
               />
-            </Form.Field>
+            </Form.Field> */}
             <Button content="Add Reply" labelPosition="left" icon="edit" primary />
           </Form>
         </div>

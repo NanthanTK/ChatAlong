@@ -179,7 +179,7 @@ const AddPostButton = ({ topic }) => {
                   onChange={handleInputChange}
                   required
                 />
-                <Form.Input
+                {/* <Form.Input
                   fluid
                   label="Username:"
                   placeholder="Username"
@@ -190,7 +190,7 @@ const AddPostButton = ({ topic }) => {
                   value={formData.username}
                   onChange={handleInputChange}
                   required
-                />
+                /> */}
                 <Form.TextArea
                   fluid
                   label="Description:"
