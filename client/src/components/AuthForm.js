@@ -100,6 +100,7 @@ const navigate = useNavigate();
 
     try {
       if (isSignUp) {
+       
         // Handle registration form submit
         const { data } = await addUser({
           variables: { ...formData },
