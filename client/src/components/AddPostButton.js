@@ -113,7 +113,7 @@ import { ADD_POST } from '../utils/mutations';
 import '../Style/AddPostButton.css';
 import { Card, Form, Icon } from 'semantic-ui-react';
 
-const AddPostButton = ({ topic }) => {
+const AddPostButton = ({ topic, refetchPost }) => {
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     //username: '',
@@ -150,6 +150,7 @@ const AddPostButton = ({ topic }) => {
           topic,
         },
       });
+      refetchPost()
       setShowForm(false);
     } catch (error) {
       console.error(error.message);
