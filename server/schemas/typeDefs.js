@@ -43,6 +43,7 @@ const typeDefs = gql`
     postsByTopic(topic: String!): [Post]!
     post(postId: ID!): Post
     me: User
+    response(responseId:ID!): Response
   
   }
   type Mutation {
