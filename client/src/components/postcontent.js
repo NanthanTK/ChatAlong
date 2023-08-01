@@ -157,11 +157,12 @@ const PostContent = () => {
 
   const [showResponseForm, setShowResponseForm] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
-  const [userName, setUserName] = useState('');
+  //const [userName, setUserName] = useState('');
   const [message, setMessage] = useState('');
   const [updatedContent, setUpdatedContent] = useState('');
 
   const postContent = data?.post;
+  console.log ("postContent",postContent);
 
   const addResponse = useMutation(ADD_RESPONSE);
   const updatePost = useMutation(UPDATE_POST);
@@ -179,15 +180,15 @@ const PostContent = () => {
   const handleResponseFormSubmit = async (event) => {
     event.preventDefault();
     try {
-      if (userName.trim() === '' || message.trim() === '') {
+      if ( message.trim() === '') {
         alert('Please fill all the fields.');
         return;
       }
-
+        console.log("message", message)
       await addResponse({
         variables: {
           postId: id,
-          message: `${userName}: ${message}`,
+          message: `${message}`,
         },
       });
 
@@ -204,6 +205,8 @@ const PostContent = () => {
         alert('Please enter updated content.');
         return;
       }
+      console.log("postID",id)
+      console.log("updatedContent",updatedContent)
 
       await updatePost({
         variables: {

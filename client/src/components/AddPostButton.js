@@ -1,7 +1,7 @@
-// import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import { useMutation } from '@apollo/client';
-// import { ADD_POST } from '../utils/mutations';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { ADD_POST } from '../utils/mutations';
 
 // const AddPostButton = ({ topic }) => {
 //   const [showForm, setShowForm] = useState(false);
@@ -106,17 +106,17 @@
 
 // export default AddPostButton;
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
-import { ADD_POST } from '../utils/mutations';
+// import React, { useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import { useMutation } from '@apollo/client';
+// import { ADD_POST } from '../utils/mutations';
 import '../Style/AddPostButton.css';
 import { Card, Form, Icon } from 'semantic-ui-react';
 
 const AddPostButton = ({ topic }) => {
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
-    username: '',
+    //username: '',
     heading: '',
     message: '',
   });
@@ -136,7 +136,7 @@ const AddPostButton = ({ topic }) => {
     event.preventDefault();
     try {
       if (
-        formData.username.trim() === '' ||
+        //formData.username.trim() === '' ||
         formData.heading.trim() === '' ||
         formData.message.trim() === ''
       ) {
