@@ -10,7 +10,7 @@ const Post = ({ setPosts }) => {
   const { topic } = useParams();
 
   // Fetch data using useQuery hook
-  const { loading, error, data } = useQuery(QUERY_POST_BY_TOPIC, {
+  const { loading, error, data, refetch } = useQuery(QUERY_POST_BY_TOPIC, {
     variables: { topic },
   });
 
@@ -37,7 +37,7 @@ const Post = ({ setPosts }) => {
       ) : (
         <p>No posts yet. Please add a post.</p>
       )}
-      <AddPostButton setPosts={setPosts} topic={topic} />
+      <AddPostButton setPosts={setPosts} topic={topic} refetchPost={refetch} />
       <Outlet />
     </div>
   );

@@ -39,13 +39,10 @@ query Post($postId: ID!) {
     heading
     message
     postAuthor {
-      username
+      _id
     }
     responses {
-      message
-      responseAuthor {
-        username
-      }
+      message 
     }
     
   }
