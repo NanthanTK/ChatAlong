@@ -13,8 +13,8 @@ const Landingpage = () => {
       </div>
 
       <section className="project_container">
-        <div className="cards row">
-          <div className="card row">
+        <div className="cardsL row">
+          <div className="cardL row">
             <Link to='/post/Language'>
               <div className="card-body">
                 <div className="title">
@@ -23,7 +23,7 @@ const Landingpage = () => {
               </div>
             </Link>
           </div>
-          <div className="card row">
+          <div className="cardL row">
             <Link to='/post/Sports'>
               <div className="card-body">
                 <div className="title">
@@ -32,7 +32,7 @@ const Landingpage = () => {
               </div>
             </Link>
           </div>
-          <div className="card row">
+          <div className="cardL row">
             <Link to='/post/Travel'>
               <div className="card-body">
                 <div className="title">
@@ -41,7 +41,7 @@ const Landingpage = () => {
               </div>
             </Link>
           </div>
-          <div className="card row">
+          <div className="cardL row">
             <Link to='/post/Finance'>
               <div className="card-body">
                 <div className="title">
@@ -50,7 +50,7 @@ const Landingpage = () => {
               </div>
             </Link>
           </div>
-          <div className="card row">
+          <div className="cardL row">
             <Link to='/post/Medical'>
               <div className="card-body">
                 <div className="title">
@@ -59,7 +59,7 @@ const Landingpage = () => {
               </div>
             </Link>
           </div>
-          <div className="card row">
+          <div className="cardL row">
             <Link to='/post/Games'>
               <div className="card-body">
                 <div className="title">
@@ -68,7 +68,7 @@ const Landingpage = () => {
               </div>
             </Link>
           </div>
-          <div className="card row">
+          <div className="cardL row">
             <Link to='/post/Chat'>
               <div className="card-body">
                 <div className="title">

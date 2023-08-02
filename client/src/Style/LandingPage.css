@@ -35,13 +35,13 @@
   margin-left: 9%;
 }
 
-.cards{
+.cardsL{
   flex-wrap: wrap;
   gap:2em;
   padding: 2em 0;
 }
 
-.card{
+.cardL{
   align-items: flex-end;
   justify-content: center;
   position: relative; 

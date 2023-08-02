@@ -92,7 +92,6 @@ refetch()
     <>
       <div className="PostContainer">
         <h1 className="PostTitle">{postContent?.heading}</h1>
-        <p className="PostUsername">By: {postContent?.username}</p>
         <h2>{postContent?.message}</h2>
         <div>
           {responseMessages.length>0 ?( 
@@ -153,17 +152,7 @@ refetch()
                 required
               />
             </Form.Field>
-            {/* <Form.Field>
-              <Input
-                placeholder="Username"
-                type="text"
-                id="userName"
-                name="userName"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                required
-              />
-            </Form.Field> */}
+
             <Button content="Add Reply" labelPosition="left" icon="edit" primary />
           </Form>
         </div>
