@@ -90,7 +90,7 @@ const PostContent = () => {
     <>
       <div className="PostContainer">
         <h1 className="PostTitle">{postContent?.heading}</h1>
-        <p className="PostUsername">By: {postContent?.postAuthor.username}</p>
+        <p className="PostUsername">By: <span className="span">{postContent?.postAuthor.username}</span></p>
         <h2>{postContent?.message}</h2>
         
         <div>
