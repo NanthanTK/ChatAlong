@@ -90,7 +90,9 @@ const PostContent = () => {
     <>
       <div className="PostContainer">
         <h1 className="PostTitle">{postContent?.heading}</h1>
+        <p className="PostUsername">By: {postContent?.postAuthor.username}</p>
         <h2>{postContent?.message}</h2>
+        
         <div>
           {responseMessages.length > 0 ? (
             responseMessages.map((response, index) => (
