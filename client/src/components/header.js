@@ -45,11 +45,23 @@ const Header = () => {
           </Link>
         </Menu.Item>
 
+        <Menu.Menu position="center">
+          <Menu.Item>
+            {isUserLoggedIn ? (
+              <>
+              <h3>Welcome back {name}.</h3>  
+
+              </>
+            ) : (
+             <p></p>
+            )}
+          </Menu.Item>
+        </Menu.Menu>
+
         <Menu.Menu position="right">
           <Menu.Item>
             {isUserLoggedIn ? (
               <>
-                Welcome {name}
                 <Button color="orange" onClick={handleLogout}>
                   Logout
                 </Button>

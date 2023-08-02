@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_POST_BY_ID } from '../utils/queries';
 import { UPDATE_POST, ADD_RESPONSE } from '../utils/mutations';
-import { Card, Button, Comment, Form, Header, Input } from 'semantic-ui-react';
+import { Card, Button, Form, Header, Input, Segment } from 'semantic-ui-react';
 import '../Style/PostContent.css';
 
 const PostContent = () => {
@@ -14,20 +14,20 @@ const PostContent = () => {
 
   const [showResponseForm, setShowResponseForm] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
-  //const [userName, setUserName] = useState('');
   const [message, setMessage] = useState('');
   const [updatedContent, setUpdatedContent] = useState('');
-
-  const postContent = data?.post;
-  console.log ("postContent",postContent);
-
-
-
-  const [addResponse]= useMutation(ADD_RESPONSE);
+  const [addResponse] = useMutation(ADD_RESPONSE);
   const [updatePost] = useMutation(UPDATE_POST);
+
+  // Data is still being fetched, show loading message
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  // Data has been fetched, continue with the component logic
+  const postContent = data?.post;
+  const responseMessages = postContent?.responses?.map(response => response.message) || [];
+
   const handleResponseClick = () => {
     setShowResponseForm(true);
     setShowUpdateForm(false);
@@ -38,25 +38,24 @@ const PostContent = () => {
     setShowResponseForm(false);
   };
 
-
-  const responseMessages = postContent.responses.map(response => response.message);
-console.log(responseMessages);
-
   const handleResponseFormSubmit = async (event) => {
     event.preventDefault();
     try {
-      if ( message.trim() === '') {
+      if (message.trim() === '') {
         alert('Please fill all the fields.');
         return;
       }
-        console.log("message", message)
+
       await addResponse({
         variables: {
           postId: id,
           message: `${message}`,
         },
       });
-refetch()
+
+      setMessage('');
+
+      refetch();
       setShowResponseForm(false);
     } catch (error) {
       console.error(error.message);
@@ -70,8 +69,6 @@ refetch()
         alert('Please enter updated content.');
         return;
       }
-      console.log("postID",id)
-      console.log("updatedContent",updatedContent)
 
       await updatePost({
         variables: {
@@ -80,94 +77,90 @@ refetch()
         },
       });
 
+ 
+      setUpdatedContent('');
+
       setShowUpdateForm(false);
     } catch (error) {
       console.error(error.message);
     }
   };
 
- 
-
   return (
     <>
       <div className="PostContainer">
         <h1 className="PostTitle">{postContent?.heading}</h1>
-        <p className="PostUsername">By: {postContent?.username}</p>
         <h2>{postContent?.message}</h2>
         <div>
-          {responseMessages.length>0 ?( 
-            responseMessages.map((response)=> (
-            <h3>{response} </h3>
-          ))):<h3>No replies yet</h3>}
+          {responseMessages.length > 0 ? (
+            responseMessages.map((response, index) => (
+              <Segment vertical key={index}>{response}</Segment>
+            ))
+          ) : (
+            <h3>No replies yet</h3>
+          )}
         </div>
 
-        {/* Conditionally render the "Update Post" button */}
-        {!showUpdateForm && (
-          <button onClick={handleUpdateClick}>Update Post</button>
-        )}
+        {/* Render buttons in a container */}
+        <div className="ButtonContainer">
+          {!showResponseForm && !showUpdateForm && (
+            <>
+              <button onClick={handleResponseClick}>Response</button>
+              <button onClick={handleUpdateClick}>Update Post</button>
+            </>
+          )}
 
-        {/* Conditionally render the update form */}
-        {!showResponseForm && showUpdateForm && (
-          <Card>
-          <form onSubmit={handleUpdateFormSubmit}>
-            <div>
-            <Card.Content>
-              <Card.Header>Updated Content:</Card.Header>
-            </Card.Content>
-            <Card.Content>
-              <label htmlFor="updatedContent"></label>
-              <textarea
-                id="updatedContent"
-                name="updatedContent"
-                value={updatedContent}
-                onChange={(e) => setUpdatedContent(e.target.value)}
-                required
-              />
-              </Card.Content>
+          {/* Render the response form */}
+          {showResponseForm && !showUpdateForm && (
+            <>
+              <div className='postcontentCardInputfeild'>
+                <Card>
+                  <Card.Content>
+                    <Card.Header>Comment:</Card.Header>
+                  </Card.Content>
+                  <Card.Content>
+                    <Form onSubmit={handleResponseFormSubmit}>
+                      <Form.Input
+                        placeholder="Comment"
+                        type="text"
+                        id="message"
+                        name="message"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        required
+                      />
+                      <Form.Button color="orange">Submit</Form.Button>
+                    </Form>
+                  </Card.Content>
+                </Card>
+              </div>
+            </>
+          )}
+
+          {/* Render the update form */}
+          {!showResponseForm && showUpdateForm && (
+            <div className='postcontentCardInputfeild'>
+              <Card>
+                <Card.Content>
+                  <Card.Header>Updated Content:</Card.Header>
+                </Card.Content>
+                <Card.Content>
+                  <Form onSubmit={handleUpdateFormSubmit}>
+                    <Form.Input
+                      id="updatedContent"
+                      name="updatedContent"
+                      value={updatedContent}
+                      onChange={(e) => setUpdatedContent(e.target.value)}
+                      required
+                    />
+                    <Form.Button color="orange">Submit</Form.Button>
+                  </Form>
+                </Card.Content>
+              </Card>
             </div>
-            <div>
-              <button type="submit">Submit</button>
-            </div>
-          </form>
-          </Card>
-        )}
+          )}
+        </div>
       </div>
-
-      <Comment.Group minimal>
-        <Header as="h3" dividing>
-          Comments
-        </Header>
-
-        {/* Render comments here */}
-
-        <div className="CommentContainer">
-          <Form onSubmit={handleResponseFormSubmit}>
-            <Form.Field>
-              <Input
-                placeholder="Comment"
-                type="text"
-                id="message"
-                name="message"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                required
-              />
-            </Form.Field>
-            {/* <Form.Field>
-              <Input
-                placeholder="Username"
-                type="text"
-                id="userName"
-                name="userName"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                required
-              />
-            </Form.Field> */}
-            <Button content="Add Reply" labelPosition="left" icon="edit" primary />
-          </Form>
-        </div>
-      </Comment.Group>
     </>
   );
 };

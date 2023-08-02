@@ -41,7 +41,7 @@
   padding: 2em 0;
 }
 
-.card{
+.cardL{
   align-items: flex-end;
   justify-content: center;
   position: relative; 
@@ -66,25 +66,25 @@
   -o-transition: max-width 0.5s ease-in-out;
 }
 
-.card:nth-of-type(2){
+.cardL:nth-of-type(2){
   background-image: url("../Images/Sports.jpg");
 }
-.card:nth-of-type(3){
+.cardL:nth-of-type(3){
     background-image: url("../Images/Travel.jpg");
   }
-  .card:nth-of-type(4){
+  .cardL:nth-of-type(4){
     background-image: url("../Images/Finance.jpg");
   }
-  .card:nth-of-type(5){
+  .cardL:nth-of-type(5){
     background-image: url("../Images/Medical.jpg");
   }
-  .card:nth-of-type(6){
+  .cardL:nth-of-type(6){
     background-image: url("../Images/Games.jpg");
   }
-  .card:nth-of-type(7){
+  .cardL:nth-of-type(7){
     background-image: url("../Images/Chat.jpg");
   }
-.card:hover{
+.cardL:hover{
   max-width: 500px;
 }
 
@@ -99,7 +99,7 @@ position:absolute;
 inset:0;
 }
 
-.card:hover .title{
+.cardL:hover .title{
   all:unset;
 }
 
@@ -117,7 +117,7 @@ inset:0;
 
 }
 
-.card:hover .project_title{
+.cardL:hover .project_title{
 padding-bottom: 0.5em;
 transform:unset;
 -webkit-transform: unset;
