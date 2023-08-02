@@ -90,6 +90,7 @@ const PostContent = () => {
     <>
       <div className="PostContainer">
         <h1 className="PostTitle">{postContent?.heading}</h1>
+        <p className="PostUsername">By: {postContent?.postAuthor.username}</p>
         <h2>{postContent?.message}</h2>
         <div>
           {responseMessages.length > 0 ? (
@@ -142,7 +143,7 @@ const PostContent = () => {
             <div className='postcontentCardInputfeild'>
               <Card>
                 <Card.Content>
-                  <Card.Header>Updated Content:</Card.Header>
+                  <Card.Header>Update Post:</Card.Header>
                 </Card.Content>
                 <Card.Content>
                   <Form onSubmit={handleUpdateFormSubmit}>
