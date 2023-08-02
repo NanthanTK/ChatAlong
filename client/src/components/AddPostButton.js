@@ -72,18 +72,6 @@ const AddPostButton = ({ topic, refetchPost }) => {
                   onChange={handleInputChange}
                   required
                 />
-                {/* <Form.Input
-                  fluid
-                  label="Username:"
-                  placeholder="Username"
-                  className="input-field"
-                  type="text"
-                  id="username"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleInputChange}
-                  required
-                /> */}
                 <Form.TextArea
                   fluid
                   label="Description:"

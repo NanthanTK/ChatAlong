@@ -13,7 +13,7 @@ const Landingpage = () => {
       </div>
 
       <section className="project_container">
-        <div className="cardsL row">
+        <div className="cards row">
           <div className="cardL row">
             <Link to='/post/Language'>
               <div className="card-body">
