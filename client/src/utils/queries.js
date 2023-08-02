@@ -40,6 +40,7 @@ query Post($postId: ID!) {
     message
     postAuthor {
       _id
+      username
     }
     responses {
       message 
