@@ -31,11 +31,13 @@ const PostContent = () => {
   const handleResponseClick = () => {
     setShowResponseForm(true);
     setShowUpdateForm(false);
+   
   };
 
   const handleUpdateClick = () => {
     setShowUpdateForm(true);
     setShowResponseForm(false);
+    setUpdatedContent(postContent?.message || "")
   };
 
   const handleResponseFormSubmit = async (event) => {
@@ -148,7 +150,7 @@ const PostContent = () => {
                 </Card.Content>
                 <Card.Content>
                   <Form onSubmit={handleUpdateFormSubmit}>
-                    <Form.Input
+                    <Form.TextArea
                       id="updatedContent"
                       name="updatedContent"
                       value={updatedContent}
